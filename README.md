@@ -40,7 +40,8 @@ Setup:
     4) Now start bochs from the command line.
 
 
-External ressources:
+External resources:
+
   http://www.osdever.net/bkerndev/index.php
   https://01.org/linuxgraphics/gfx-docs/drm/index.html
   https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html
