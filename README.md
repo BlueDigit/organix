@@ -12,7 +12,7 @@ If you are reading this, you should take a look to this very good web site :
 http://www.jamesmolloy.co.uk/tutorial_html/
 
 For now, the project is just a school work and a simple verbatim of James Molloy's
-work. But, if you are intersted in developping the subject, don't hesitate to
+work. But, if you are interested in developing the subject, don't hesitate to
 contact me.
 
 This readme could possibly change during the next weeks.
