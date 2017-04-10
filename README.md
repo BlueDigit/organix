@@ -18,7 +18,7 @@ contact me.
 This readme could possibly change during the next weeks.
 
 
-Setup:
+#Setup:
 
 0. Remember that https://www.gnu.org/software/software.html is your friend !
 1. Download GRUB (bootloader) : https://www.gnu.org/software/grub/
@@ -39,11 +39,30 @@ Setup:
 
     4) Now start bochs from the command line.
 
+#Launch GRUB 2
+0.After make and update_image.sh
+1.Launch the OS with qemu:
+  '''
+  qemu organix.img
+  '''
+2.When grub2 is started:
+  '''
+  inird (hd0,msdos1)/kernel
+  '''
 
-External resources:
-
+#External resources:
+  http://www.jamesmolloy.co.uk/tutorial_html/
   http://www.osdever.net/bkerndev/index.php
   https://01.org/linuxgraphics/gfx-docs/drm/index.html
   https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html
   http://www.eecg.toronto.edu/~amza/www.mindsec.com/files/x86regs.html
   http://www.cs.virginia.edu/~evans/cs216/guides/x86.html
+  https://littleosbook.github.io/
+  https://github.com/berkus/jamesm-tutorials
+  http://bochs.sourceforge.net/doc/docbook/user/bochsrc.html
+  http://www.markomedia.com.au/load-kernel-and-boot-your-system-with-grub2/
+  http://www.pbm.com/~lindahl/real.programmers.html
+  http://stackoverflow.com/questions/12982020/compiling-to-32-bit-using-make
+  https://doc.ubuntu-fr.org/qemu
+  https://github.com/roscopeco/mink
+  https://roscopeco.com/

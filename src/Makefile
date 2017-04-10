@@ -4,8 +4,8 @@
 # rule, as we use nasm instead of GNU as.
 
 SOURCES=boot.o main.o
-CFLAGS=-nostdlib -nostdinc -fno-builtin -fno-stack-protector
-LDFLAGS=-Tlink.ld
+CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector
+LDFLAGS=-melf_i386 -TLink.ld
 ASFLAGS=-felf
 
 all: $(SOURCES) link
