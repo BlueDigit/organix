@@ -43,15 +43,18 @@ This readme could possibly change during the next weeks.
 0.After make and update_image.sh
 1.Launch the OS with qemu:
   '''
-  qemu organix.img
+  sudo qemu -drive file=organix.img,index=0,media=disk,format=raw
   '''
 2.When grub2 is started:
   '''
-  inird (hd0,msdos1)/kernel
+  set root=(hd0,msdos1)
+  chainloader --force (hd0,msdos1)/kernel
+  boot
   '''
 
 #External resources:
   http://www.jamesmolloy.co.uk/tutorial_html/
+  https://www.gnu.org/software/grub/manual/grub.html
   http://www.osdever.net/bkerndev/index.php
   https://01.org/linuxgraphics/gfx-docs/drm/index.html
   https://01.org/linuxgraphics/gfx-docs/drm/process/coding-style.html
@@ -66,3 +69,4 @@ This readme could possibly change during the next weeks.
   https://doc.ubuntu-fr.org/qemu
   https://github.com/roscopeco/mink
   https://roscopeco.com/
+  https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-828-operating-system-engineering-fall-2012/
