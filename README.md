@@ -26,7 +26,7 @@ This readme could possibly change during the next weeks.
 3. Install BOCHS (x86 emulator) : sudo apt-get install bochs
    You should then follow this steps :
    1) Create a disk image for the emulator.
-         cd /opt/local/share/bochs
+         cd /opt/local/share/bochs$
          sudo bximage (prompts will guide you)
          sudo chmod 777 <diskimg-name>
 
