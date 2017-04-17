@@ -19,12 +19,10 @@ mkfs.ext2 /dev/mapper/loop0p1
 
 # Make the mount-point
 mkdir -p /mnt/organix
+mkdir -p /mnt/organix/boot
 
 # Mount the filesystem via loopback
 mount /dev/mapper/loop0p1 /mnt/organix
-
-# Copy in the files from the staging directory
-cp -r src/kernel /mnt/organix
 
 # Create a device map for grub
 echo "(hd0) /dev/loop0" > /mnt/organix/device.map
@@ -35,11 +33,18 @@ echo "(hd0) /dev/loop0" > /mnt/organix/device.map
 #   * Include the basic set of modules we need in the Grub image.
 #   * Install grub into the filesystem at our loopback mountpoint.
 #   * Install the MBR to the loopback device itself.
-grub-install --no-floppy                                                      \
-              --grub-mkdevicemap=/mnt/organix/device.map                          \
-              --modules="biosdisk part_msdos ext2 configfile normal multiboot" \
-              --root-directory=/mnt/organix                                 \
+grub-install  --no-floppy                                                      \
+              --grub-mkdevicemap=/mnt/organix/device.map                      \
+              --modules="biosdisk part_msdos ext2 configfile normal multiboot"\
+              --root-directory=/mnt/organix                                   \
+              --boot-directory=/mnt/organix/boot                              \
               /dev/loop0
+
+# Copy the grub config file
+cp -r grub/* /mnt/organix/boot/grub
+
+# Copy the kernel to boot on
+cp -r src/kernel /mnt/organix/boot
 
 # Unmount the loopback
 umount /mnt/organix

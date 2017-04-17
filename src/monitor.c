@@ -3,9 +3,9 @@
 #include "monitor.h"
 #include "common.h"
 
-static u16int cursor_y;
-static u16int cursor_x;
-static u16int video_memory[80*25];
+static u16int cursor_y = 0;
+static u16int cursor_x = 0;
+static unsigned short * video_memory;
 // The background colour is black (0), the foreground is white (15)
 static u8int backColour = 0;
 static u8int foreColour = 15;
@@ -67,7 +67,6 @@ void monitor_put(char c)
     {
         cursor_x--;
     }
-
     // Handle a tab by increasing the cursor's X, but only to a point
     // where it is divisible by 8
     else if (c == 0x09)
@@ -133,4 +132,11 @@ void monitor_write(char *c)
     {
         monitor_put(c[i++]);
     }
+}
+
+/* Sets our text-mode VGA pointer, then clears the screen for us */
+void init_video()
+{
+    video_memory = (unsigned short *)0xB8000;
+    monitor_clear();
 }

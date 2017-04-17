@@ -8,6 +8,6 @@ struct multiboot;
 int main(struct multiboot *mboot_ptr)
 {
   // All our initialisation calls will go in here.
-  monitor_clear();
+  init_video();
   monitor_write("Hello, world!");
 }

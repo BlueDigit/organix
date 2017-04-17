@@ -40,20 +40,28 @@ This readme could possibly change during the next weeks.
     4) Now start bochs from the command line.
 
 #Launch GRUB 2
-0.After make and update_image.sh
-1.Launch the OS with qemu:
+0.Compile
   '''
-  sudo qemu -drive file=organix.img,index=0,media=disk,format=raw
+  cd src
+  make clean
+  make all
+  cd ..
   '''
-2.When grub2 is started:
+1.Create the disk image
   '''
-  set root=(hd0,msdos1)
-  chainloader --force (hd0,msdos1)/kernel
-  boot
+  sudo ./create_img.sh
   '''
+2.Launch the OS with the shell script named qemu:
+  '''
+  sudo ./qemu
+  '''
+3.When grub2 is started:
+  Select organix in Grub 2 menu entry.
 
 #External resources:
   http://www.jamesmolloy.co.uk/tutorial_html/
+  http://wiki.osdev.org/James_Molloy%27s_Tutorial_Known_Bugs
+  http://rwth-os.github.io/eduOS/
   https://www.gnu.org/software/grub/manual/grub.html
   http://www.osdever.net/bkerndev/index.php
   https://01.org/linuxgraphics/gfx-docs/drm/index.html
