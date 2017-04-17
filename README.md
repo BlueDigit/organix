@@ -78,3 +78,9 @@ This readme could possibly change during the next weeks.
   https://github.com/roscopeco/mink
   https://roscopeco.com/
   https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-828-operating-system-engineering-fall-2012/
+
+#TODO List
+  0.Output
+    implement vsprintf, printf
+  1.Memory management
+    implement memcpy, memset
