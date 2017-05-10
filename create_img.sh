@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-trap read debug
+#trap read debug
 
 # Create the actual disk image - 20MB
 dd if=/dev/zero of=organix.img count=20 bs=1048576

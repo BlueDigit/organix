@@ -1,3 +1,6 @@
 ressources_ext
 .DS_Store
 organix.img
+src/*.o
+*.o
+*.gch

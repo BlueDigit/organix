@@ -2,6 +2,7 @@
 
 #include "monitor.h"
 #include "common.h"
+#include "stdlib.h"
 
 static u16int cursor_y = 0;
 static u16int cursor_x = 0;
@@ -132,6 +133,13 @@ void monitor_write(char *c)
     {
         monitor_put(c[i++]);
     }
+}
+
+void monitor_write_dec(u32int dec)
+{
+    char str[32];
+    itoa(dec, str, 10);
+    monitor_write(str);
 }
 
 /* Sets our text-mode VGA pointer, then clears the screen for us */

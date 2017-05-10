@@ -39,23 +39,31 @@ This readme could possibly change during the next weeks.
 
     4) Now start bochs from the command line.
 
-#Launch GRUB 2
+#Launch GRUB 2:
+
 0.Compile
+
   '''
   cd src
   make clean
   make all
   cd ..
   '''
+
 1.Create the disk image
+
   '''
   sudo ./create_img.sh
   '''
+
 2.Launch the OS with the shell script named qemu:
+
   '''
   sudo ./qemu
   '''
+  
 3.When grub2 is started:
+
   Select organix in Grub 2 menu entry.
 
 #External resources:
