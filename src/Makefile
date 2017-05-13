@@ -4,7 +4,7 @@
 # rule, as we use nasm instead of GNU as.
 
 SOURCES=boot.o main.o monitor.o common.o stdlib.o string.o interrupt.o \
-		gdt.o isr.o descriptor_tables.o
+		gdt.o isr.o descriptor_tables.o timer.o
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector
 LDFLAGS=-melf_i386 -TLink.ld
 ASFLAGS=-felf
@@ -12,7 +12,7 @@ ASFLAGS=-felf
 all: $(SOURCES) link
 
 clean:
-	-rm *.o *.gch kernel 
+	-rm *.o *.gch kernel
 
 link:
 	ld $(LDFLAGS) -o kernel $(SOURCES)
