@@ -26,7 +26,7 @@ char *itoa(int val, char *str, int base)
         str[idx] = '\0';
         int end = idx - 1;
         idx = 0;
-        
+
         while(idx < end) {
             char temp = str[idx];
             str[idx]  = str[end];
