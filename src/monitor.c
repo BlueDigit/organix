@@ -142,6 +142,13 @@ void monitor_write_dec(u32int dec)
     monitor_write(str);
 }
 
+void monitor_write_hex(u32int dec)
+{
+    char str[32];
+    itoa(dec, str, 16);
+    monitor_write(str);
+}
+
 /* Sets our text-mode VGA pointer, then clears the screen for us */
 void init_video()
 {

@@ -4,22 +4,19 @@
 #include "monitor.h"
 #include "descriptor_tables.h"
 #include "timer.h"
-
-struct multiboot;
+#include "paging.h"
 
 int main(struct multiboot *mboot_ptr)
 {
   // All our initialisation calls will go in here.
   init_video();
   init_descriptor_tables();
-  monitor_write("Hello, world!\n");
-  unsigned int test = 32;
-  monitor_write("Print an int: ");
-  monitor_write_dec(test);
-  monitor_write("\n");
-  asm volatile ("int $0x3");
-  asm volatile ("int $0x4");
-  asm volatile("sti");
-  init_timer(50); // Initialise timer to 50Hz
+  initialise_paging();
+
+  monitor_write("Hello! Welcome to a paging capable kernel!\n");
+
+  u32int *ptr = (u32int*)0xA0000000;
+  u32int do_page_fault = *ptr;
+
   return 0;
 }

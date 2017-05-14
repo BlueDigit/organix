@@ -17,6 +17,8 @@ void monitor_write(char *c);
 
 void monitor_write_dec(u32int dec);
 
+void monitor_write_hex(u32int dec);
+
 // Initate the pointer to the video memory
 void init_video();
 
