@@ -18,7 +18,12 @@ int main(struct multiboot *mboot_ptr)
   // u32int *ptr = (u32int*)0xA0000000;
   // u32int do_page_fault = *ptr;
 
+
+
   initialise_paging();
+
+  monitor_write_dec(1118910111);
+  monitor_write("\n");
   u32int a = kmalloc(8);
   u32int b = kmalloc(8);
   u32int c = kmalloc(8);

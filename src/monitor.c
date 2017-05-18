@@ -3,6 +3,7 @@
 #include "monitor.h"
 #include "common.h"
 #include "stdlib.h"
+#include "string.h"
 
 static u16int cursor_y = 0;
 static u16int cursor_x = 0;
@@ -138,48 +139,40 @@ void monitor_write(char *c)
 void monitor_write_dec(u32int dec)
 {
     char str[32];
+    memset(str, 0, 32);
     itoa(dec, str, 10);
     monitor_write(str);
 }
 
 void monitor_write_hex(u32int n)
 {
+    char str[32];
+    memset(str, 0, 32);
+    itoa(n , str, 16);
+    monitor_write(str);
+    /**
     s32int tmp;
-
     monitor_write("0x");
-
     char noZeroes = 1;
 
     int i;
-    for (i = 28; i > 0; i -= 4)
+    for (i = 32; i > 0; i -= 4)
     {
         tmp = (n >> i) & 0xF;
         if (tmp == 0 && noZeroes != 0)
         {
             continue;
         }
-
-        if (tmp >= 0xA)
-        {
-            noZeroes = 0;
-            monitor_put (tmp-0xA+'a' );
-        }
-        else
-        {
-            noZeroes = 0;
-            monitor_put( tmp+'0' );
-        }
+        s32int to_print = tmp >= 0xA ? tmp - 0xA + 'A' : tmp + '0';
+        monitor_put(to_print);
+        noZeroes = 0;
     }
 
-    tmp = n & 0xF;
-    if (tmp >= 0xA)
-    {
-        monitor_put (tmp-0xA+'a');
-    }
-    else
-    {
-        monitor_put (tmp+'0');
-    }
+    //tmp = n & 0xF;
+    //tmp = tmp >= 0xA ? tmp - 0xA + 'A' : 0;
+    monitor_put(tmp);
+    **/
+
 }
 
 /* Sets our text-mode VGA pointer, then clears the screen for us */
