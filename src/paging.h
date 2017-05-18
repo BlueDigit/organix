@@ -47,4 +47,8 @@ page_t *get_page(u32int address, int make, page_directory_t *dir);
 // Handler for page faults.
 void page_fault(registers_t regs);
 
+void alloc_frame(page_t *page, int is_kernel, int is_writtable);
+
+void free_frame(page_t *page);
+
 #endif

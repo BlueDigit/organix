@@ -4,3 +4,4 @@ organix.img
 src/*.o
 *.o
 *.gch
+kernel

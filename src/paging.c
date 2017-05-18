@@ -6,6 +6,7 @@
 #include "kheap.h"
 #include "monitor.h"
 #include "string.h"
+#include "elf.h"
 
 // A bitset of frames - used for free.
 u32int *frames;
@@ -13,10 +14,15 @@ u32int nframes;
 
 // Defined in kheap.c
 extern u32int placement_address;
+extern heap_t *kheap;
 
-// kernel directory
-static page_directory_t *kernel_directory = 0;
-static page_directory_t *current_directory = 0;
+extern elf_t kernel_elf;
+
+// kernel's page directory.
+page_directory_t *kernel_directory = 0;
+
+// Current page directory.
+page_directory_t *current_directory = 0;
 
 // Macros used in the bitset algorithms.
 #define INDEX_FROM_BIT(a) (a/(8*4))
@@ -70,10 +76,28 @@ static u32int first_frame()
     }
 }
 
+void print_stack_trace ()
+{
+  u32int *ebp, *eip;
+  asm volatile ("mov %%ebp, %0" : "=r" (ebp));
+  while (ebp)
+  {
+    eip = ebp+1;
+    monitor_write_dec(*eip);
+    monitor_write(": ");
+    monitor_write(elf_lookup_symbol(*eip, &kernel_elf));
+    monitor_write("\n");
+    ebp = (u32int*)*ebp;
+  }
+}
+
 static void panic(char *str)
 {
-    monitor_write("Kernel panic: ");
+    monitor_write("****Kernel panic: ");
     monitor_write(str);
+    monitor_write("\n");
+    print_stack_trace();
+    monitor_write("****\n");
     while(1);
 }
 
@@ -116,8 +140,12 @@ void free_frame(page_t *page)
 
 void initialise_paging()
 {
-    u32int mem_end_page = 0x10000000;
-
+    // The size of physical memory. For the moment we
+    // assume it is 16MB big.
+    u32int mem_end_page = 0x1000000;
+    monitor_write("KHEAP_START: ");
+    monitor_write_hex(KHEAP_START);
+    monitor_write("\n");
     nframes = mem_end_page / 0x1000;
     frames = (u32int*)kmalloc(INDEX_FROM_BIT(nframes));
     memset(frames, 0, INDEX_FROM_BIT(nframes));
@@ -126,20 +154,46 @@ void initialise_paging()
     kernel_directory = (page_directory_t*)kmalloc_a(sizeof(page_directory_t));
     memset(kernel_directory, 0, sizeof(page_directory_t));
     current_directory = kernel_directory;
-
-    // Indetifies map (phys addr = virt addr) from 0x0 to the end of used memory.
+    monitor_write_hex(KHEAP_START);
+    monitor_write("\n");
+    // Map some pages in the kernel heap area.
+    // Here we call get_page but not alloc_frame. This causes page_table_t's
+    // to be created where necessary. We can't allocate frames yet because they
+    // they need to be identity mapped first below, and yet we can't increase
+    // placement_address between identity mapping and enabling the heap!
     int i = 0;
-    while(i < placement_address)
+    for (i = KHEAP_START; i < KHEAP_START+KHEAP_INITIAL_SIZE; i += 0x1000)
+        get_page(i, 1, kernel_directory);
+
+    // We need to identity map (phys addr = virt addr) from
+    // 0x0 to the end of used memory, so we can access this
+    // transparently, as if paging wasn't enabled.
+    // NOTE that we use a while loop here deliberately.
+    // inside the loop body we actually change placement_address
+    // by calling kmalloc(). A while loop causes this to be
+    // computed on-the-fly rather than once at the start.
+    // Allocate a lil' bit extra so the kernel heap can be
+    // initialised properly.
+    i = 0;
+    while(i < placement_address + 0x1000)
     {
         // Kernel code is readable but not writeable from userspace.
         alloc_frame(get_page(i, 1, kernel_directory), 0, 0);
         i += 0x1000;
     }
+    // Now allocate those pages we mapped earlier.
+    for (i = KHEAP_START; i < KHEAP_START+KHEAP_INITIAL_SIZE; i += 0x1000)
+        alloc_frame( get_page(i, 1, kernel_directory), 0, 0);
+
     // Before we enable paging, we must register our page fault handler.
     register_interrupt_handler(14, page_fault);
 
-    // Now enables paging!
+    // Now, enable paging!
     switch_page_directory(kernel_directory);
+    monitor_write_hex(KHEAP_START);
+    monitor_write("\n");
+    // Initialise the kernel heap.
+    kheap = create_heap(KHEAP_START, KHEAP_START + KHEAP_INITIAL_SIZE, 0xCFFFF000, 0, 0);
 }
 
 void switch_page_directory(page_directory_t *dir)
@@ -184,7 +238,7 @@ void page_fault(registers_t regs)
    asm volatile("mov %%cr2, %0" : "=r" (faulting_address));
 
    // The error code gives us details of what happened.
-   int present   = !(regs.err_code & 0x1); // Page not present
+   int present   = !(regs.err_code & 0x1); // Page not present?
    int rw = regs.err_code & 0x2;           // Write operation?
    int us = regs.err_code & 0x4;           // Processor was in user-mode?
    int reserved = regs.err_code & 0x8;     // Overwritten CPU-reserved bits of page entry?
