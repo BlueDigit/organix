@@ -5,3 +5,7 @@ src/*.o
 *.o
 *.gch
 kernel
+*.img
+test*
+make_initrd
+*.out

@@ -10,10 +10,12 @@ SECTIONS
   .mbheader : {
     *(.mbheader)
   }
+
   .text :
   {
     code = .; _code = .; __code = .;
     *(.text)
+    . = ALIGN(4096);
   }
 
   .data :

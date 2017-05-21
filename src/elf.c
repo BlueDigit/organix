@@ -7,8 +7,8 @@
 
 elf_t kernel_elf;
 
-/*
-elf_t elf_from_multiboot (multiboot_t *mb)
+/**
+elf_t elf_from_multiboot (multiboot_header_t *mb)
 {
   int i;
   elf_t elf;
@@ -30,7 +30,8 @@ elf_t elf_from_multiboot (multiboot_t *mb)
     }
   }
   return elf;
-}*/
+}
+**/
 
 char *elf_lookup_symbol (u32int addr, elf_t *elf)
 {

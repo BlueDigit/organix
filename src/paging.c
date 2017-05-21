@@ -154,6 +154,10 @@ void initialise_paging()
     kernel_directory = (page_directory_t*)kmalloc_a(sizeof(page_directory_t));
     memset(kernel_directory, 0, sizeof(page_directory_t));
     current_directory = kernel_directory;
+    monitor_write("\nplacement_address: ");
+    monitor_write_hex(placement_address);
+    monitor_write("\n");
+    monitor_write("KHEAP_START: ");
     monitor_write_hex(KHEAP_START);
     monitor_write("\n");
     // Map some pages in the kernel heap area.
@@ -162,9 +166,11 @@ void initialise_paging()
     // they need to be identity mapped first below, and yet we can't increase
     // placement_address between identity mapping and enabling the heap!
     int i = 0;
-    for (i = KHEAP_START; i < KHEAP_START+KHEAP_INITIAL_SIZE; i += 0x1000)
+    for (i = KHEAP_START; i < KHEAP_START + KHEAP_INITIAL_SIZE; i += 0x1000)
         get_page(i, 1, kernel_directory);
-
+    monitor_write("KHEAP_INITIAL_SIZE: ");
+    monitor_write_hex(KHEAP_INITIAL_SIZE);
+    monitor_write("\n");
     // We need to identity map (phys addr = virt addr) from
     // 0x0 to the end of used memory, so we can access this
     // transparently, as if paging wasn't enabled.
@@ -190,6 +196,7 @@ void initialise_paging()
 
     // Now, enable paging!
     switch_page_directory(kernel_directory);
+    monitor_write("KHEAP_START: ");
     monitor_write_hex(KHEAP_START);
     monitor_write("\n");
     // Initialise the kernel heap.

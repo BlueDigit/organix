@@ -5,7 +5,7 @@
 
 SOURCES=boot.o main.o monitor.o common.o stdlib.o string.o interrupt.o \
 		gdt.o isr.o descriptor_tables.o timer.o kheap.o paging.o ordered_array.o \
-		elf.o
+		elf.o initrd.o fs.o
 CFLAGS=-m32 -nostdlib -nostdinc -fno-builtin -fno-stack-protector
 LDFLAGS=-melf_i386 -TLink.ld
 ASFLAGS=-felf

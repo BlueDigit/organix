@@ -18,7 +18,7 @@ contact me.
 This readme could possibly change during the next weeks.
 
 
-#Setup:
+# Setup:
 
 0. Remember that https://www.gnu.org/software/software.html is your friend !
 1. Download GRUB (bootloader) : https://www.gnu.org/software/grub/
@@ -39,7 +39,7 @@ This readme could possibly change during the next weeks.
 
     4) Now start bochs from the command line.
 
-#Launch GRUB 2:
+# Launch GRUB 2:
 
 0.Compile
 
@@ -61,12 +61,12 @@ This readme could possibly change during the next weeks.
   '''
   sudo ./qemu
   '''
-  
+
 3.When grub2 is started:
 
   Select organix in Grub 2 menu entry.
 
-#External resources:
+# External resources:
   http://www.jamesmolloy.co.uk/tutorial_html/
   http://wiki.osdev.org/James_Molloy%27s_Tutorial_Known_Bugs
   http://rwth-os.github.io/eduOS/
@@ -87,7 +87,7 @@ This readme could possibly change during the next weeks.
   https://roscopeco.com/
   https://ocw.mit.edu/courses/electrical-engineering-and-computer-science/6-828-operating-system-engineering-fall-2012/
 
-#TODO List
+# TODO List
   0.Output
     implement vsprintf, printf
   1.Memory management

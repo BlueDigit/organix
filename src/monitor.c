@@ -150,29 +150,6 @@ void monitor_write_hex(u32int n)
     memset(str, 0, 32);
     itoa(n , str, 16);
     monitor_write(str);
-    /**
-    s32int tmp;
-    monitor_write("0x");
-    char noZeroes = 1;
-
-    int i;
-    for (i = 32; i > 0; i -= 4)
-    {
-        tmp = (n >> i) & 0xF;
-        if (tmp == 0 && noZeroes != 0)
-        {
-            continue;
-        }
-        s32int to_print = tmp >= 0xA ? tmp - 0xA + 'A' : tmp + '0';
-        monitor_put(to_print);
-        noZeroes = 0;
-    }
-
-    //tmp = n & 0xF;
-    //tmp = tmp >= 0xA ? tmp - 0xA + 'A' : 0;
-    monitor_put(tmp);
-    **/
-
 }
 
 /* Sets our text-mode VGA pointer, then clears the screen for us */

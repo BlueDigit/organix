@@ -121,17 +121,23 @@ heap_t *create_heap(u32int start, u32int end_addr, u32int max, u8int supervisor,
     //ASSERT(start%0x1000 == 0);
     //ASSERT(end_addr%0x1000 == 0);
     // Make sure the start address is page_aligned.
+    monitor_write_hex(start);
+    monitor_write("\n");
     if(start % 0x1000)
     {
         start &= 0xFFFFF000;
         start += 0x1000;
     }
+    monitor_write_hex(start);
+    monitor_write("\n");
     // Initialise the index.
     heap->index = place_ordered_array((void*)start, HEAP_INDEX_SIZE, &header_t_less_than);
 
     // Shift the start address forward to resemble where we can start putting data.
     start += sizeof(type_t)*HEAP_INDEX_SIZE;
+monitor_write("heap 2\n");
 
+monitor_write("heap 3\n");
     if(end_addr % 0x1000)
     {
         end_addr &= 0xFFFFF000;
@@ -143,12 +149,14 @@ heap_t *create_heap(u32int start, u32int end_addr, u32int max, u8int supervisor,
     heap->max_address = max;
     heap->supervisor = supervisor;
     heap->readonly = readonly;
+monitor_write("heap 4\n");
     // We start off with one large hole in the index.
     header_t *hole = (header_t *)start;
     hole->size = end_addr - start;
     hole->magic = HEAP_MAGIC;
     hole->is_hole = 1;
     insert_ordered_array((void*)hole, &heap->index);
+monitor_write("heap 5\n");
     return heap;
 }
 

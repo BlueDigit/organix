@@ -7,6 +7,8 @@
 // Some nice typedefs, to standardize sizes accross platforms
 // Written for 32-bit x86
 
+// Special
+
 // unsigned
 typedef unsigned int            u32int;
 typedef unsigned short          u16int;
